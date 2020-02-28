@@ -25,17 +25,16 @@ d3.json('nygeo.json').then(function(data) {
     d3.csv('data.csv').then(function(pointData) {
 
         const albersProj = d3.geoAlbers()
-            .scale(190)
-            .rotate([71.057, 0])
-            .center([0, 42.313])
+            .scale(70000)
+            .rotate([74.0060, 0])
+            .center([0, 40.7128])
             .translate([m.width/2, m.height/2]);
 
         // this code shows what albersProj really does
         let point = pointData[0]
-        console.log(point);
         let arr = [ point['longitude'] , point['latitude'] ]
         let scaled = albersProj(arr)
-        console.log(scaled)
+
 
         const geoPath = d3.geoPath()
         .projection(albersProj)
@@ -54,12 +53,10 @@ d3.json('nygeo.json').then(function(data) {
             .append('circle')
                 .attr('cx', function(d) {
                     let scaledPoints = albersProj([d['longitude'], d['latitude']])
-                    //console.log('Append circle: scaledPoints[0] = ' + scaledPoints[0]);
                     return scaledPoints[0]
                 })
                 .attr('cy', function(d) {
                     let scaledPoints = albersProj([d['longitude'], d['latitude']])
-                    //console.log('Append circle: scaledPoints[1] = ' + scaledPoints[1]);
                     return scaledPoints[1]
                 })
                 .attr('r', 5)
@@ -69,8 +66,8 @@ d3.json('nygeo.json').then(function(data) {
                     .attr("opacity",1)
                     .transition()
                     .duration( 1000 )
-                    .attr( "x", m.width * Math.round( Math.random() ) )
-                    .attr( "y", m.height * Math.round( Math.random() ) )
+                    .attr( "cx", m.width * Math.round( Math.random() ) )
+                    .attr( "cy", m.height * Math.round( Math.random() ) )
                     .attr( "opacity", 0 )
                     .on("end",function(){
                       d3.select(this).remove();
