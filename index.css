@@ -1,0 +1,24 @@
+body{
+  display: flex;
+  flex-direction: row;
+  height: 600px;
+  width: 1000px;
+  font-family: "Tahoma", "Geneva", sans-serif;
+  font-weight: lighter;
+}
+
+#plot {
+  width: 1000px;
+}
+
+#side{
+  align-content: center;
+  height: 100%;
+  width: 20%;
+}
+
+#generation{
+  height: 10%;
+  width: 100%;
+
+}
