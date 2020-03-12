@@ -1,3 +1,20 @@
+const COLORS = [
+  "#69c0d1",
+  "#75c257",
+  "#d9d93b",
+  "#f77519",
+  "#f72b19"
+  ]
+
+const FEELING = [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5"
+]
+
+
 
 const m = {
     width: 1000,
@@ -46,6 +63,10 @@ d3.json('globalgeo.json').then(function(geoData) {
       currPlot.remove();
       plot = d3.select("#plotArea")
 
+      var color = d3.scaleOrdinal()
+      .domain(FEELING)
+      .range(COLORS)
+
       plot.append('svg')
         .attr("id", "currentPlot")
 
@@ -73,12 +94,13 @@ d3.json('globalgeo.json').then(function(geoData) {
                  return scaledPoints[1]
              })
              .attr('r', 5)
-             .attr('fill', 'steelblue')
+             .style("fill", function (d) { return color(d.general_feeling) } )
              .on( "click", function(){
                d3.select(this)
+                 .attr('r', 15)
                  .attr("opacity",1)
                  .transition()
-                 .duration( 1000 )
+                 .duration( 3000 )
                  .attr( "cx", m.width * Math.round( Math.random() ) )
                  .attr( "cy", m.height * Math.round( Math.random() ) )
                  .attr( "opacity", 0 )
