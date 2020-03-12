@@ -14,29 +14,23 @@ const FEELING = [
   "5"
 ]
 
-
-
 const m = {
-    width: 1000,
+    width: 800,
     height: 600
 }
 
-const svg = d3.select("body").append('svg')
-    .attr('width', m.width)
-    .attr('height', m.height)
-
-const g = svg.append('g')
-
-// similar to the  rat map example
 d3.json('globalgeo.json').then(function(geoData) {
 
     d3.csv('SYMPTOM_MOCK_DATA.csv').then(function(data) {
+
+      let pain = "All";
+      let symptom = "All";
 
         // set the scale of the map
         const albersProj = d3.geoAlbers()
           .scale(200)
           .rotate([74.0060, 0])
-          .center([-20, 40.7128])
+          .center([10, 50])
             .translate([m.width/2, m.height/2]);
 
         // plot the locations on the map
@@ -54,10 +48,14 @@ d3.json('globalgeo.json').then(function(geoData) {
             .attr("width", m.width)
             .attr("height", m.height)
 
+
+        activateDropdowns();
         plotPoints(data, geoData);
-        activateDropdown();
 
    function plotPoints(pointData, geoData) {
+
+     record = pointData[1];
+     console.log("First Symptom " + record.symptom);
 
       currPlot = d3.select("#currentPlot")
       currPlot.remove();
@@ -110,23 +108,62 @@ d3.json('globalgeo.json').then(function(geoData) {
              })
          }
 
-         function activateDropdown() {
-           d3.select("#gen-feeling").on("change",function(){
-             gen = this.options[this.selectedIndex].value;
-             console.log(gen);
-             if (gen == "All"){
+         function activateDropdowns() {
+
+           d3.select("#pain-levels").on("change", function() {
+
+             pain = this.options[this.selectedIndex].value;
+             console.log("Pain = " + pain);
+
+             if (pain == "All" && symptom == "All"){
                displayData = data;
                plotPoints(displayData, geoData);
+             } else if (pain == "All") {
+               displayData =  data.filter(function(d) {
+                   tempData = (d.symptom == symptom)
+                   console.log("Temp Data =  " + tempData[1]);
+                   return d.symptom == symptom
+               })
+               plotPoints(displayData, geoData);
+             } else if (symptom == "All") {
+               displayData =  data.filter(function(d) {
+                   return d.general_feeling == pain
+               })
+               plotPoints(displayData, geoData);
              } else {
-               displayData = data.filter(function(d){
-                 return d.general_feeling == gen;
-               }
-               )
-               console.log(displayData[3]);
+               displayData =  data.filter(function(d) {
+                   return (d.symptom == symptom && d.general_feeling == pain)
+               })
                plotPoints(displayData, geoData);
              }
-           }
-           )
+           })
+
+
+           d3.select("#symp").on("change", function() {
+             symptom = this.options[this.selectedIndex].value;
+             if (pain == "All" && symptom == "All"){
+               displayData = data;
+               plotPoints(displayData, geoData);
+             } else if (pain == "All") {
+               displayData =  data.filter(function(d) {
+                   return d.symptom == symptom
+               })
+               plotPoints(displayData, geoData);
+             } else if (symptom == "All") {
+               displayData =  data.filter(function(d) {
+                   return d.general_feeling == pain
+               })
+               plotPoints(displayData, geoData);
+             } else {
+               displayData =  data.filter(function(d) {
+                   return (d.symptom == symptom && d.general_feeling == pain)
+               })
+               plotPoints(displayData, geoData);
+             }
+             plotPoints(displayData, geoData);
+           })
+
+
          }
   })
 })

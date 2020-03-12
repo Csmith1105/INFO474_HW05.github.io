@@ -8,18 +8,37 @@
     </head>
     <body>
       <div id="plot">
-        <h1>Patient Location & General Feeling</h1>
+        <h1>Patient Location, Symptoms, Pain Levels</h1>
       </div>
-      <div id="general">
-        <h3>General Feeling</h3>
-        <select id="gen-feeling">
-          <option value="All">All</option>
-          <option value="1">Excellent</option>
-          <option value="2">Good</option>
-          <option value="3">Fair</option>
-          <option value="4">Poor</option>
-          <option value="5">Very Unwell</option>
-        </select>
+      <div id="side">
+        <div id="pain">
+          <h3>Pain Level</h3>
+          <h4>1(minimal) to 5(extreme)</h4>
+          <select id="pain-levels">
+            <option value="All">All</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+        <div id="symptoms">
+          <h3>Symptoms</h3>
+          <select id="symp">
+            <option value="All">All</option>
+            <option value="Bloating">Bloating</option>
+            <option value="Constipation">Constipation</option>
+            <option value="Cramps">Cramps</option>
+            <option value="Diarrhea">Diarrhea</option>
+            <option value="Gas">Gas</option>
+            <option value="Nausea">Nausea</option>
+            <option value="Stomach Pain">Stomach Pain</option>
+            <option value="Unusual Stool">Unusual Stool</option>
+            <option value="Vomiting">Vomiting</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
       </div>
     </body>
     <script src="index.js"></script>
